@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container, Grid } from "semantic-ui-react";
+import { handleInitialData } from "./actions/shared";
+import { connect } from "react-redux";
+import Login from "./components/Login";
+import Nav from "./components/Nav";
+import Home from "./components/Home";
+import InfoCard from "./components/InfoCard";
+import PollAnswering from "./components/PollAnswering";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  componentDidMount() {
+    this.props.handleInitialData();
+  }
+
+  render() {
+    const { authUser } = this.props;
+
+    return (
+      <Container>
+        <Router>
+          <div>
+            {authUser === null ? (
+              <Route
+                render={() => (
+                  <Grid padded="vertically" columns={1} centered>
+                    <Grid.Row>
+                      <Grid.Column style={{ maxWidth: 550 }}>
+                        <Login />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                )}
+              />
+            ) : (
+              <Fragment>
+                <Nav />
+                <Grid padded="vertically" columns={1} centered>
+                  <Grid.Row>
+                    <Grid.Column style={{ maxWidth: 550 }}>
+                      <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route
+                          path="/questions/:id"
+                          component={PollAnswering}
+                        />
+                      </Switch>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Fragment>
+            )}
+          </div>
+        </Router>
+      </Container>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps({ authUser }) {
+  return {
+    authUser
+  };
+}
+
+export default connect(mapStateToProps, { handleInitialData })(App);
