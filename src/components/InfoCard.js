@@ -1,23 +1,9 @@
 import React, { Component } from "react";
-import { Header, Card, Grid, Image, Button, Radio } from "semantic-ui-react";
+import { Header, Card, Grid, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import PollUnanswered from "./PollUnanswered";
 import PollAnswered from './PollAnswered';
 
-
-const PollResults = () => (
-  <div>
-    <h3>would you rather</h3>
-    <div>
-      <p>option 1 got : x out of y votes</p>
-
-      <p>option 2 got : x out of y votes or XX%</p>
-    </div>
-    <div>
-      <Button>Back</Button>
-    </div>
-  </div>
-);
 
 class InfoCard extends Component {
   render() {
@@ -27,7 +13,7 @@ class InfoCard extends Component {
       <Card fluid>
         <Card.Content>
           <Card.Header>
-            <Header as="h2">{questionInfo.author} says:</Header>
+            <Header as="h2">{questionInfo.author} asks:</Header>
           </Card.Header>
         </Card.Content>
         <Card.Content>

@@ -5,28 +5,29 @@ import InfoCard from "./InfoCard";
 
 class Home extends Component {
   render() {
-    const { answered, unanswered, authUser } = this.props;
+    const { answered, unanswered } = this.props;
     const panes = [
-      {
-        menuItem: "answered",
+       {
+        menuItem: "unanswered",
         render: () => (
           <Tab.Pane>
-            {answered.map(question => (
-              <InfoCard type="answered" questionInfo={question} />
+            {unanswered.map((question, idx) => (
+              <InfoCard key={idx} type="unanswered" questionInfo={question} />
             ))}
           </Tab.Pane>
         )
       },
       {
-        menuItem: "unanswered",
+        menuItem: "answered",
         render: () => (
           <Tab.Pane>
-            {unanswered.map(question => (
-              <InfoCard type="unanswered" questionInfo={question} />
+            {answered.map((question, idx) => (
+              <InfoCard key={idx} type="answered" questionInfo={question} />
             ))}
           </Tab.Pane>
         )
       }
+     
     ];
 
     return <Tab panes={panes} />;

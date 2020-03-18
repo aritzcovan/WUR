@@ -19,6 +19,7 @@ class PollUnanswered extends Component {
       return <Redirect push to={`/questions/${questionInfo.id}`} />;
     }
     return (
+        
       <div>
         <h3>would you rather</h3>
         <div>

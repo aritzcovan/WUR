@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
-import InfoCard from "./components/InfoCard";
 import PollAnswering from "./components/PollAnswering";
 
 class App extends Component {

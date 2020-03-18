@@ -1,26 +1,24 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Select, Button } from "semantic-ui-react";
-
 import { setAuthUser } from "../actions/authUser";
 
 class Login extends Component {
-
   state = {
     selectedUser: ""
   };
+
   setSelectedUser = (e, { value }) => {
     this.setState({ selectedUser: value });
   };
 
   doLogin = e => {
-    e.preventDefault();
     const { selectedUser } = this.state;
-    const { dispatch, setAuthUser } = this.props;
-    
-    dispatch(setAuthUser(selectedUser));
+    const { setAuthUser } = this.props;
+
+    setAuthUser(selectedUser);
   };
-  
+
   render() {
     const { users } = this.props;
     return (

@@ -1,26 +1,104 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Radio, Button } from "semantic-ui-react";
+import { Radio, Button, Grid, Image, Card, Header } from "semantic-ui-react";
+import { addUserAnswer } from "../actions/users";
+
+import PollResult from "./PollResult";
 
 class PollAnswering extends Component {
+  state = {
+    selectedValue: "",
+    answered: false
+  };
+  handleValueChange = (e, { value }) => {
+    this.setState({ selectedValue: value });
+  };
+  handleAnswer = e => {
+    console.log("click");
+    const { authUser, question, dispatch } = this.props;
+    //get the selected value and store it and go to poll results
+    let answer = {
+      authedUser: authUser,
+      questionId: question.id,
+      option: this.state.selectedValue
+    };
+    dispatch(addUserAnswer(answer));
+    this.setState({ answered: true });
+  };
+
   render() {
-    const option1 = "drive a car";
-    const option2 = "ride a motorcycle";
+    const { question, users  } = this.props;
 
     return (
-      <div>
-        <h3>would you rather</h3>
-        <div>
-          <Radio name="group" value="option1" label={option1} />
-          <br />
-          <Radio name="group" value="option2" label={option2} />
-        </div>
-        <div>
-          <Button>submit</Button>
-        </div>
-      </div>
+      <Fragment>
+        {this.state.answered === true ? (
+          <PollResult question={question} />
+        ) : (
+          <Card fluid>
+            <Card.Content>
+              <Card.Header>
+                <Header as="h2">{question.author} asks:</Header>
+              </Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <Grid>
+                <Grid.Row columns={2}>
+                  <Grid.Column>
+                    <Image
+                      src={users[question.author].avatarURL}
+                      size="small"
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <div>
+                      <h3>Would you rather:</h3>
+                    </div>
+                    <div>
+                      <div>
+                        <Radio
+                          name="group"
+                          value="optionOne"
+                          checked={this.state.selectedValue === "optionOne"}
+                          onChange={this.handleValueChange}
+                          label={question.optionOne.text}
+                        />
+                        <br />
+                        <Radio
+                          name="group"
+                          value="optionTwo"
+                          checked={this.state.selectedValue === "optionTwo"}
+                          onChange={this.handleValueChange}
+                          label={question.optionTwo.text}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          disabled={
+                            this.state.selectedValue === "" ? true : false
+                          }
+                          onClick={this.handleAnswer}
+                        >
+                          Submit
+                        </Button>
+                      </div>
+                    </div>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Card.Content>
+          </Card>
+        )}
+      </Fragment>
     );
   }
 }
+function mapStateToProps({ authUser, questions, users }, props) {
+  const { id } = props.match.params;
+  return {
+    question: questions[id],
+    authUser,
+    users
+  };
+}
 
-export default connect()(PollAnswering);
+export default connect(mapStateToProps)(PollAnswering);
