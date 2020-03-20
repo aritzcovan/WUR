@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAuthUser } from "../actions/authUser";
 
 class Nav extends Component {
   state = {
@@ -8,8 +10,13 @@ class Nav extends Component {
   };
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
+  handleLogout = e => {
+    this.props.setAuthUser(null);
+  };
+
   render() {
     const { activeItem } = this.state;
+    const { authUser } = this.props;
 
     return (
       <div>
@@ -38,9 +45,17 @@ class Nav extends Component {
             active={activeItem === "leaderboard"}
             onClick={this.handleItemClick}
           />
+          <Menu.Item position="right">{authUser}</Menu.Item>
+          <Menu.Item as="button" name="logout" onClick={this.handleLogout} />
         </Menu>
       </div>
     );
   }
 }
-export default Nav;
+
+function mapStateToProps({ authUser }) {
+  return {
+    authUser
+  };
+}
+export default connect(mapStateToProps, { setAuthUser })(Nav);

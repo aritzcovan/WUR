@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Radio, Button, Grid, Image, Card, Header } from "semantic-ui-react";
 import { addUserAnswer } from "../actions/users";
-
 import PollResult from "./PollResult";
 
 class PollAnswering extends Component {
@@ -14,9 +13,9 @@ class PollAnswering extends Component {
     this.setState({ selectedValue: value });
   };
   handleAnswer = e => {
-    console.log("click");
+
     const { authUser, question, dispatch } = this.props;
-    //get the selected value and store it and go to poll results
+    
     let answer = {
       authedUser: authUser,
       questionId: question.id,
@@ -93,9 +92,10 @@ class PollAnswering extends Component {
   }
 }
 function mapStateToProps({ authUser, questions, users }, props) {
-  const { id } = props.match.params;
+  // const { id } = props.match.params;
+  const { question } = props;
   return {
-    question: questions[id],
+    question,
     authUser,
     users
   };

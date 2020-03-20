@@ -6,7 +6,9 @@ import { connect } from "react-redux";
 import Login from "./components/Login";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
-import PollAnswering from "./components/PollAnswering";
+import PollMgr from "./components/PollMgr";
+import AddPoll from "./components/AddPoll";
+import Leaderboard from "./components/Leaderboard";
 
 class App extends Component {
   componentDidMount() {
@@ -40,10 +42,9 @@ class App extends Component {
                     <Grid.Column style={{ maxWidth: 550 }}>
                       <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route
-                          path="/questions/:id"
-                          component={PollAnswering}
-                        />
+                        <Route path="/questions/:id" component={PollMgr} />
+                        <Route path="/add" component={AddPoll} />
+                        <Route path="/leaderboard" component={Leaderboard} />
                       </Switch>
                     </Grid.Column>
                   </Grid.Row>

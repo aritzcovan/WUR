@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import { Header, Card, Grid, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import PollUnanswered from "./PollUnanswered";
-import PollAnswered from './PollAnswered';
-
+import PollAnswered from "./PollAnswered";
 
 class InfoCard extends Component {
   render() {
     const { type, questionInfo, users } = this.props;
-    console.log(typeof type, questionInfo);
     return (
       <Card fluid>
         <Card.Content>
@@ -26,7 +24,7 @@ class InfoCard extends Component {
                 />
               </Grid.Column>
               <Grid.Column>
-                {type === 'answered' ? (
+                {type === "answered" ? (
                   <PollAnswered questionInfo={questionInfo} />
                 ) : (
                   <PollUnanswered questionInfo={questionInfo} />
